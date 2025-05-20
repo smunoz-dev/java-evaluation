@@ -6,7 +6,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,8 +19,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table( name = "users-audit",
-        uniqueConstraints = { @UniqueConstraint(columnNames = { "token" }) })
+@Table( name = "users-audit")
 public class UserAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
