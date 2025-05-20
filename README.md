@@ -19,7 +19,7 @@ y finalmente al de obtención de usuario `GET /api/user/{id}`.
 
 - Java 17+
 - Maven 3.8+
-- Base de datos compatible (H2, PostgreSQL, etc.)
+- Base de datos compatible (H2 en memoria por defecto)
 
 ## Instalación
 
