@@ -15,7 +15,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.util.Date;
 import java.util.Set;
 
 @Getter
@@ -44,4 +47,21 @@ public class User {
     @Column(name = "phones")
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Phone> phones;
+
+    @Column(name = "token")
+    private String token;
+
+    @Column(name = "is_active")
+    private Boolean isActive;
+
+    @CreationTimestamp
+    @Column(updatable = false, name = "created")
+    private Date created;
+
+    @UpdateTimestamp
+    @Column(name = "modified")
+    private Date modified;
+
+    @Column(name = "last_login")
+    private Date lastLogin;
 }

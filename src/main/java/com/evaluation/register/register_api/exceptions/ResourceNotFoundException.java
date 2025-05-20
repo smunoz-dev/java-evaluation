@@ -15,14 +15,14 @@ public class ResourceNotFoundException extends RuntimeException {
     private long value;
 
     public ResourceNotFoundException(String resource, String field, long value) {
-        super(String.format("%s no encontrado/a con : %s : '%s'", resource, field, value));
+        super(String.format("%s no encontrado con : %s : '%s'", resource, field, value));
         this.resource = resource;
         this.field = field;
         this.value = value;
     }
 
     public ResourceNotFoundException(String resource) {
-        super(String.format("%s no encontrado/a", resource));
+        super(String.format("%s no encontrado", resource));
         this.resource = resource;
     }
 }

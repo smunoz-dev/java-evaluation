@@ -2,16 +2,13 @@ package com.evaluation.register.register_api.services;
 
 import com.evaluation.register.register_api.exceptions.ResourceNotFoundException;
 import com.evaluation.register.register_api.model.entities.User;
-import com.evaluation.register.register_api.model.entities.UserAudit;
 import com.evaluation.register.register_api.model.form.ResponseForm;
 import com.evaluation.register.register_api.model.form.UserForm;
 import com.evaluation.register.register_api.repository.UserRepository;
-import com.evaluation.register.register_api.util.Operations;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -27,22 +24,20 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Correo ya registrado");
         } else {
             User newUser = mappingToEntity(user);
-            return reportBack(userRepository.save(newUser), Operations.CREATE);
+            return reportBack(userRepository.save(newUser));
         }
     }
 
-    private ResponseForm reportBack(User user, int operation) {
-        if (operation == Operations.CREATE) {
-            UserAudit userAudit = new UserAudit();
-            userAudit.setId(user.getId());
-            userAudit.setCreated(new Date());
-            userAudit.setModified(new Date());
-            userAudit.setLastLogin(new Date());
-            userAudit.setToken("token1");
-            userAudit.setIsActive(true);
-            return mappingToResponseForm(userAudit);
-        }
-      return null;
+    private ResponseForm reportBack(User user) {
+            ResponseForm form = new ResponseForm();
+            form.setId(user.getId());
+            form.setIsactive(user.getIsActive());
+            form.setToken(user.getToken());
+            form.setLastLogin(null);
+            form.setCreated(user.getCreated());
+            form.setModified(user.getModified());
+            return form;
+
     }
 
     public boolean remove(long id) {
@@ -76,18 +71,11 @@ public class UserService {
         newUser.setName(user.getName());
         newUser.setPassword(user.getPassword());
         newUser.setPhones(user.getPhones());
+        newUser.setToken("token");
+        newUser.setIsActive(true);
         return newUser;
     }
-    private ResponseForm mappingToResponseForm(UserAudit user) {
-        ResponseForm form = new ResponseForm();
-        form.setCreated(user.getCreated());
-        form.setModified(user.getModified());
-        form.setId(user.getId());
-        form.setLastLogin(user.getLastLogin());
-        form.setToken(user.getToken());
-        form.setIsactive(user.getIsActive());
-        return form;
-    }
+
     private UserForm mappingToUserForm(User user) {
         UserForm form = new UserForm();
         form.setId(user.getId());
@@ -97,4 +85,5 @@ public class UserService {
         form.setPhones(user.getPhones());
         return form;
     }
+
 }
